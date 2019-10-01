@@ -4,15 +4,15 @@ Gradient-weighted Class Activation Mapping (Grad-CAM) is a class-discriminative 
 
 ## Overview
 Grad-CAM uses the gradient information flowing into the last convolutional layer of the model to obtain localization map and understand the importance of each pixel of the input image for a specific class. 
-Let’s assume, ![](http://latex.codecogs.com/gif.latex?L_{Grad-CAM}^c\in\mathbb{R}^{u{\times}v})represents the localization map with width ![](http://latex.codecogs.com/gif.latex?u) and height ![](http://latex.codecogs.com/gif.latex?v) for class ![](http://latex.codecogs.com/gif.latex?c). To calculate ![](http://latex.codecogs.com/gif.latex?L_{Grad-CAM}^c), the gradient of the score for class ![](http://latex.codecogs.com/gif.latex?c) (before softmax), with respect to feature map ![](http://latex.codecogs.com/gif.latex?k), ![](http://latex.codecogs.com/gif.latex?A^{k}), of the last convolutional layer is calculated and global average pooled to obtain neuron importance weight, ![](http://latex.codecogs.com/gif.latex?a_k^c):
+Let’s assume, ![](http://latex.codecogs.com/gif.latex?L_{Grad-CAM}^c\in\mathbb{R}^{u{\times}v})represents the localization map with width ![](http://latex.codecogs.com/gif.latex?u) and height ![](http://latex.codecogs.com/gif.latex?v) for class ![](http://latex.codecogs.com/gif.latex?c). To calculate ![](http://latex.codecogs.com/gif.latex?L_{Grad-CAM}^c), the gradient of the score for class ![](http://latex.codecogs.com/gif.latex?c) (before softmax), with respect to feature map ![](http://latex.codecogs.com/gif.latex?k), ![](http://latex.codecogs.com/gif.latex?A^{k}), of the last convolutional layer is calculated and global average pooled to obtain neuron importance weight, ![](http://latex.codecogs.com/gif.latex?\alpha_k^c):
 <p align="center">
-<img src="http://latex.codecogs.com/gif.latex?a_k^c&space;=&space;\frac{1}{N}\sum_{i}\sum_{j}\frac{\partial&space;y^c}{\partial&space;A_{ij}^{k}}" title="a_k^c = \frac{1}{N}\sum_{i}\sum_{j}\frac{\partial y^c}{\partial A_{ij}^{k}}" />
+<img src="http://latex.codecogs.com/gif.latex?\alpha_k^c&space;=&space;\frac{1}{N}\sum_{i}\sum_{j}\frac{\partial&space;y^c}{\partial&space;A_{ij}^{k}}" title="a_k^c = \frac{1}{N}\sum_{i}\sum_{j}\frac{\partial y^c}{\partial A_{ij}^{k}}" />
 </p>
 
 
 Furthermore, a weighted combination of forward activation maps followed by ReLU is obtained:
 <p align="center">
-<img src="http://latex.codecogs.com/gif.latex?L_{Grad-CAM}^c&space;=ReLU\left&space;\left&space;(&space;\sum_{k}a_k^cA^k&space;\right&space;)" title="L_{Grad-CAM}^c =ReLU\left \left ( \sum_{k}a_k^cA^k \right )" />
+<img src="http://latex.codecogs.com/gif.latex?L_{Grad-CAM}^c&space;=ReLU\left&space;\left&space;(&space;\sum_{k}\alpha_k^cA^k&space;\right&space;)" title="L_{Grad-CAM}^c =ReLU\left \left ( \sum_{k}a_k^cA^k \right )" />
 </p>
 
 
@@ -36,7 +36,7 @@ From Grad-CAM visualizations, it can be concluded that the trained model looks f
 
 ## Reference:
 
-Salvaraju, R., Cogswell, M., Das, A., Vedantam, R., PArikh, D., and
+Salvaraju, R., Cogswell, M., Das, A., Vedantam, R., Parikh, D., and
 Batra, D. (2017). Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization. *IEEE International Conference on Computer Vision (ICCV)*
 (<https://arxiv.org/abs/1610.02391>)
 
